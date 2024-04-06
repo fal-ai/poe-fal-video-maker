@@ -32,7 +32,22 @@ Checking DNS configuration for poe-video-maker-hidden-star-1770.fly.dev
 
 Visit your newly deployed app at https://poe-video-maker-hidden-star-1770.fly.dev/
 ```
-4) Run `fly deploy`
+4) Head to the poe website and click "Create Bot" if you haven't done before, and grab your access Access key
+   
+<img width="874" alt="image" src="https://github.com/fal-ai/poe-fal-video-maker/assets/1714827/e78e2918-d275-4b21-abcf-dae6b68b2e16">
+
+5) Set your Access key as an fly secret 
+
+```
+fly secrets set POE_ACCESS_KEY=***
+```
+
+6) Head to the fal website and create a fal api key - https://fal.ai/dashboard/keys.
+```
+fly secrets set FAL_KEY=***
+```
+
+7) Run `fly deploy`
 You should get a response that ends like this 
 ```
 [...]
@@ -79,4 +94,4 @@ Checking DNS configuration for poe-video-maker-hidden-star-1770.fly.dev
 
 Visit your newly deployed app at https://poe-video-maker-hidden-star-1770.fly.dev/
 ```
-5) Now you have a publicly accessible url - follow the steps on the poe website to integrate it with your bot https://creator.poe.com/docs/quick-start#integrating-with-poe
+7) Now you have a publicly accessible url - https://poe-video-maker-hidden-star-1770.fly.dev. Head to https://poe.com/create_bot?server=1 and follow the instructions to finish creating your bot 
