@@ -27,47 +27,71 @@ class VideoMaker(fp.PoeBot):
             for attachment in message.attachments
             if attachment.content_type.startswith("image/")
         ]
-        if not images or len(images) > 1:
-            yield fp.PartialResponse(text="Please provide a single image.")
+        if not images:
+            prompt = message.content
+            response = await self.fal_client.run(
+                "fal-ai/fast-sdxl",
+                arguments={
+                    "prompt": f"a realistic {prompt}, cinematic, ultra hd, high quality, video, cinematic, high quality",
+                    "negative_prompt": "illustraiton, cartoon, blurry, text, not cinematic",
+                    "image_size": {
+                        "height": 576,
+                        "width": 1024,
+                    },
+                    "num_inference_steps": 30,
+                },
+            )
+            image_url = response["images"][0]["url"]
+        elif len(images) == 1:
+            image_url = images[0].url
+        else:
+            yield fp.PartialResponse(
+                text="Please provide a single image or supply a prompt."
+            )
             return
 
-        [image] = images
         yield fp.PartialResponse(text="Creating video...")
         handle = await self.fal_client.submit(
             "fal-ai/fast-svd-lcm",
-            {"image_url": image.url, "fps": 6},
+            {"image_url": image_url, "fps": 6},
         )
 
-        log_index = 0
+        header = f"![image]({image_url})"
         async for progress in handle.iter_events(with_logs=True):
             if isinstance(progress, fal_client.Queued):
-                yield fp.PartialResponse(text=f"Queued... {progress.position}")
+                yield fp.PartialResponse(
+                    text=f"{header}\nQueued... {progress.position}",
+                    is_replace_response=True,
+                )
             elif isinstance(progress, fal_client.InProgress):
-                logs = [log["message"] for log in progress.logs[log_index:]]
-                log_index = len(progress.logs)
-                yield fp.PartialResponse(text="\n".join(logs))
+                logs = [log["message"] for log in progress.logs]
+                text = f"{header}\n```" + "\n".join(logs)
+                yield fp.PartialResponse(text=text, is_replace_response=True)
 
         data = await handle.get()
         video_url = data["video"]["url"]
 
         await self.post_message_attachment(
-            message_id=message.message_id,
+            message_id=request.message_id,
             download_url=video_url,
         )
         yield fp.PartialResponse(text=f"Video created!", is_replace_response=True)
-
+        yield fp.PartialResponse(text=prompt, is_replace_response=True)
 
     async def get_settings(self, setting: fp.SettingsRequest) -> fp.SettingsResponse:
         return fp.SettingsResponse(
             allow_attachments=True,
-            introduction_message="Welcome to the video maker bot. Please provide me an image so i can generate a video from it.",
+            introduction_message=(
+                "Welcome to the video maker bot (powered by fal.ai). Please provide me a prompt to "
+                "start with or an image so i can generate a video from it."
+            ),
         )
 
 
-def main():
-    bot = VideoMaker(access_key=POE_ACCESS_KEY)
-    fp.run(bot)
-
+bot = VideoMaker()
+app = fp.make_app(bot, POE_ACCESS_KEY)
 
 if __name__ == "__main__":
-    main()
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8080)
