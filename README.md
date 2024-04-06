@@ -79,3 +79,4 @@ Checking DNS configuration for poe-video-maker-hidden-star-1770.fly.dev
 
 Visit your newly deployed app at https://poe-video-maker-hidden-star-1770.fly.dev/
 ```
+5) Now you have a publicly accessible url - follow the steps on the poe website to integrate it with your bot https://creator.poe.com/docs/quick-start#integrating-with-poe
