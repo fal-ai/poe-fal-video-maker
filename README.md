@@ -1,6 +1,6 @@
-**1) Create a fly account if you don't have one already. New users get $5 credits but you might have to put a credit card.**
-**2) Clone the repository `git clone https://github.com/fal-ai/poe-fal-video-maker`**
-**3) Run `fly launch`**
+1) Create a fly account if you don't have one already. New users get $5 credits but you might have to put a credit card.
+2) Clone the repository `git clone https://github.com/fal-ai/poe-fal-video-maker`
+3) Run `fly launch`
 You should get a response like this 
 
 ```
@@ -32,7 +32,7 @@ Checking DNS configuration for poe-video-maker-hidden-star-1770.fly.dev
 
 Visit your newly deployed app at https://poe-video-maker-hidden-star-1770.fly.dev/
 ```
-**4) Run `fly deploy`**
+4) Run `fly deploy`
 You should get a response that ends like this 
 ```
 [...]
@@ -79,4 +79,4 @@ Checking DNS configuration for poe-video-maker-hidden-star-1770.fly.dev
 
 Visit your newly deployed app at https://poe-video-maker-hidden-star-1770.fly.dev/
 ```
-**5) Now you have a publicly accessible url - follow the steps on the poe website to integrate it with your bot https://creator.poe.com/docs/quick-start#integrating-with-poe**
+5) Now you have a publicly accessible url - follow the steps on the poe website to integrate it with your bot https://creator.poe.com/docs/quick-start#integrating-with-poe
