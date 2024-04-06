@@ -21,6 +21,14 @@ class VideoMaker(fp.PoeBot):
     async def get_response(
         self, request: fp.QueryRequest
     ) -> AsyncIterable[fp.PartialResponse]:
+        yield fp.MetaResponse(
+            text="",
+            content_type="text/markdown",
+            linkify=True,
+            refetch_settings=False,
+            suggested_replies=False,
+        )
+
         message = request.query[-1]
         images = [
             attachment
@@ -76,7 +84,6 @@ class VideoMaker(fp.PoeBot):
             download_url=video_url,
         )
         yield fp.PartialResponse(text=f"Video created!", is_replace_response=True)
-        yield fp.PartialResponse(text=prompt, is_replace_response=True)
 
     async def get_settings(self, setting: fp.SettingsRequest) -> fp.SettingsResponse:
         return fp.SettingsResponse(
