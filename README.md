@@ -1,3 +1,5 @@
+This example uses fly.io as a hosting provider, and fal as an inference provider. 
+
 1) Create a fly account if you don't have one already. New users get $5 credits but you might have to put a credit card. Install the fly command line tools
 ```
 brew install flyctl
