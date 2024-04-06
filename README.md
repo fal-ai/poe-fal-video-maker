@@ -1,4 +1,7 @@
-1) Create a fly account if you don't have one already. New users get $5 credits but you might have to put a credit card.
+1) Create a fly account if you don't have one already. New users get $5 credits but you might have to put a credit card. Install the fly command line tools
+```
+brew install flyctl
+```
 2) Clone the repository `git clone https://github.com/fal-ai/poe-fal-video-maker`
 3) Run `fly launch`
 You should get a response like this 
